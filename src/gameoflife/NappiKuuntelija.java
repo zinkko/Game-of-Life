@@ -14,7 +14,6 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 
 public class NappiKuuntelija implements ActionListener{
-    
     private boolean kaynnissa;
     private Farmer farmer;
     private GenThread t;

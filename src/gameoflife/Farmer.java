@@ -20,8 +20,10 @@ public class Farmer extends JPanel{
     private int cellWidth,sleepTime,generationAmount;
     private boolean kaynnissa;
     private Color color;
+    private int[] born;
+    private int[] survive;
     
-    public Farmer(){
+    public Farmer(int[] b, int[] s){
         super();
         this.cellWidth = 8;
         this.solut = new ArrayList<>();
@@ -29,6 +31,13 @@ public class Farmer extends JPanel{
         this.newCells = new ArrayList<>();
         this.generationAmount = 0;
         this.color = Color.BLUE;
+        
+        this.born = b;
+        this.survive = s;
+    }
+    
+    public Farmer(){
+        this(new int[]{3},new int[]{2,3});
     }
     
     public int nextGeneration(){
@@ -46,15 +55,34 @@ public class Farmer extends JPanel{
         for (Cell cell: this.solut){
             naapurit = this.getNeighbours(cell);
             int neighbours = naapurit.size();
-            //System.out.println(neighbours);
-            if (neighbours<2){
-                this.hitList.add(cell);
+            
+            /*if (neighbours<2){
+                this.hitList.add(cell); //kill
             }
             else if(neighbours>3 && cell.isPopulated()){
-                this.hitList.add(cell);
+                this.hitList.add(cell); //kill
             }
             else if (neighbours==3 && !cell.isPopulated()){
-                this.newCells.add(cell);
+                this.newCells.add(cell); // born
+            }*/
+            if (cell.isPopulated()){ // kill?
+                boolean dead = true;
+                for (int i:this.survive){
+                    if (neighbours==i){
+                        dead = false;
+                        break;
+                    }
+                }
+                if (dead){
+                    this.hitList.add(cell); // did not survive :(
+                }
+            }else{ //reincarnate?
+                for (int i: this.born){
+                    if (neighbours == i){
+                        this.newCells.add(cell);
+                        break;
+                    }
+                }
             }
             
         }
@@ -147,20 +175,16 @@ public class Farmer extends JPanel{
     
     private List<Cell> getNeighbours(Cell cell){
         List<Cell> neighbours = new ArrayList<>();
-      
-        /*for (Cell solu:this.solut){
-            if (solu.isPopulated()&&solu.distanceTo(cell)==1) neighbours++;
-        }*/
         
         int x = cell.getX();
         int y = cell.getY();
         
-        for (int i=x-1; i<x+2;i++){
-            if (i<0 || i>=100){
+        for (int i=x-1; i<x+2;i++){ 
+            if (i<0 || i>=100){ // outside "farm"
                 continue;
             }          
             for (int j=y-1; j<y+2;j++){
-                if (j<0 || j>= 100){
+                if (j<0 || j>= 100){ // outside "farm" (vertically)
                     continue;
                 }
                 Cell naapuri = this.solut.get(i*100+j);

@@ -59,7 +59,8 @@ public class Game implements Runnable{
         JButton nxt = new JButton("seuraava");
         JTextField vari = new JTextField("kirjoita tänne väri");
         JTextField gen = new JTextField("Generation: 0");
-
+        gen.setEditable(false);
+            
         vari.addKeyListener(new AnkkaKuuntelija(vari));
         
         NappiKuuntelija k = new NappiKuuntelija(farmer,kuunt,nappi,clrBtn,nxt,vari,gen);
