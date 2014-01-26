@@ -20,9 +20,11 @@ public class Farmer extends JPanel{
     private int cellWidth,sleepTime,generationAmount;
     private boolean kaynnissa;
     private Color color;
+    private Game peli;
     
-    public Farmer(){
+    public Farmer(Game game){
         super();
+        this.peli = game;
         this.cellWidth = 8;
         this.solut = new ArrayList<>();
         this.hitList = new ArrayList<>();
@@ -43,19 +45,18 @@ public class Farmer extends JPanel{
         }
         
         List<Cell> naapurit;
+        
         for (Cell cell: this.solut){
             naapurit = this.getNeighbours(cell);
             int neighbours = naapurit.size();
             //System.out.println(neighbours);
-            if (neighbours<2){
+            
+            if (!this.peli.elossa(neighbours)){
                 this.hitList.add(cell);
-            }
-            else if(neighbours>3 && cell.isPopulated()){
-                this.hitList.add(cell);
-            }
-            else if (neighbours==3 && !cell.isPopulated()){
+            }else if (!cell.isPopulated() && this.peli.hedelmallinen(neighbours)){
                 this.newCells.add(cell);
             }
+
             
         }
         

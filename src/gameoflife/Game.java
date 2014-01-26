@@ -25,13 +25,40 @@ import javax.swing.JTextField;
         
 
 public class Game implements Runnable{
-    private JFrame frame;
-    private Farmer farmer;
+    private final JFrame frame;
+    private final Farmer farmer;
+    private int[] birth = new int[]{3};
+    private int[] survival = new int[]{2,3};
     
     public Game(){
         this.frame = new JFrame();
-        this.farmer = new Farmer();
+        this.farmer = new Farmer(this);
     }
+    
+    public Game(int[] birth, int[] survival){
+        this();
+        this.birth =birth;
+        this.survival = survival;
+    }
+    
+    public boolean elossa(int naapureita){
+        for (int i:this.survival){
+            if (naapureita == i){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean hedelmallinen(int naapureita){
+        for (int i:this.birth){
+            if (naapureita==i){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     @ Override
     public void run(){
         frame.setPreferredSize(new Dimension(800,600));
@@ -57,10 +84,10 @@ public class Game implements Runnable{
         JButton nappi = new JButton("Aloita");
         JButton clrBtn = new JButton("tyhjennä");
         JButton nxt = new JButton("seuraava");
-        JTextField vari = new JTextField("kirjoita tänne väri");
-        JTextField gen = new JTextField("Generation: 0");
+        JTextField vari = new JTextField("");
+        JTextField gen = new JTextField("Sukupolvi: 0");
 
-        vari.addKeyListener(new AnkkaKuuntelija(vari));
+        vari.addKeyListener(new VariSyottoKuuntelija(vari));
         
         NappiKuuntelija k = new NappiKuuntelija(farmer,kuunt,nappi,clrBtn,nxt,vari,gen);
         nappi.addActionListener(k);
@@ -78,13 +105,13 @@ public class Game implements Runnable{
     }
 
 
-    private class AnkkaKuuntelija implements KeyListener{ // to be replaced by some kind of implementation of a dropdown menu  
+    private class VariSyottoKuuntelija implements KeyListener{ // to be replaced by some kind of implementation of a dropdown menu  
 
         private JTextField txt;
-        private Map<String,Color> varit;
+        private final Map<String,Color> varit;
 
-        public AnkkaKuuntelija(JTextField txt){
-            AnkkaKuuntelija.this.txt = txt;
+        public VariSyottoKuuntelija(JTextField txt){
+            VariSyottoKuuntelija.this.txt = txt;
             this.varit = new HashMap<>();
             varit.put("blue", Color.blue);
             varit.put("green", Color.green);
@@ -93,12 +120,19 @@ public class Game implements Runnable{
             varit.put("red", Color.red);
             
         }
+        
+        private Color tulkitseVari(String syote){
+            if (this.varit.containsKey(syote)){
+                return this.varit.get(syote);
+            }
+            return Color.PINK;
+        }
 
         @Override
         public void keyPressed(KeyEvent e){
             if (e.getKeyCode()==KeyEvent.VK_ENTER){
-                String colorName = txt.getText();
-                Game.this.farmer.setColor(this.varit.get(colorName));
+                String syote = txt.getText();
+                Game.this.farmer.setColor(tulkitseVari(syote));
                 txt.setText("");
             }
         }
