@@ -28,10 +28,15 @@ public class Game implements Runnable{
     private JFrame frame;
     private Farmer farmer;
     
+    public Game(int[] b, int[] s){
+        this.frame = new JFrame();
+        this.farmer = new Farmer(b,s);
+    }
     public Game(){
         this.frame = new JFrame();
         this.farmer = new Farmer();
     }
+    
     @ Override
     public void run(){
         frame.setPreferredSize(new Dimension(800,600));
