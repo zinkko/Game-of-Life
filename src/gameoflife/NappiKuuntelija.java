@@ -18,19 +18,18 @@ public class NappiKuuntelija implements ActionListener{
     private Farmer farmer;
     private GenThread t;
     private Kuuntelija k;
-    private JTextField vari,gen;
+    private JTextField gen;
     
     private JButton paaNappi,btn2,btn3;
     
     
-    public NappiKuuntelija(Farmer farmer,Kuuntelija k,JButton paaNappi, JButton poisto, JButton nxt,JTextField vari,JTextField gen){
+    public NappiKuuntelija(Farmer farmer,Kuuntelija k,JButton paaNappi, JButton poisto, JButton nxt,JTextField gen){
         this.farmer = farmer;
         this.kaynnissa  =false;
         this.paaNappi = paaNappi;
         this.k = k;
         this.btn2 = poisto;
         this.btn3 = nxt; 
-        this.vari = vari;
         this.gen = gen;
     }
     
@@ -61,7 +60,7 @@ public class NappiKuuntelija implements ActionListener{
             this.paaNappi.setText("Aloita");
             this.btn2.setEnabled(true);
             this.btn3.setEnabled(true);
-            this.vari.setEditable(true);
+            //this.vari.setEditable(true);
             //t = null;
             t.interrupt();
             kaynnissa  = false;
@@ -70,7 +69,7 @@ public class NappiKuuntelija implements ActionListener{
             this.paaNappi.setText("Lopeta");
             this.btn2.setEnabled(false);
             this.btn3.setEnabled(false);
-            this.vari.setEditable(false);
+            //this.vari.setEditable(false);
             if (t !=null){
                 if (t.isInterrupted()){
                     return;

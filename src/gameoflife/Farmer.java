@@ -75,6 +75,8 @@ public class Farmer extends JPanel{
                 }
                 if (dead){
                     this.hitList.add(cell); // did not survive :(
+                //}else{ // age
+                //    cell.setColor(cell.getColor().darker());
                 }
             }else{ //reincarnate?
                 for (int i: this.born){
