@@ -38,10 +38,10 @@ public class Game implements Runnable {
         this.frame = new JFrame();
         this.farmer = new Farmer();
     }
-
-    @Override
-    public void run() {
-        frame.setPreferredSize(new Dimension(800, 600));
+    
+    @ Override
+    public void run(){
+        frame.setPreferredSize(new Dimension(800,600));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         luoKomponentit(frame.getContentPane());
@@ -96,15 +96,16 @@ public class Game implements Runnable {
         private final Map<String, Color> varit;
 
         public VariKuuntelija() {
+
             this.varit = new HashMap<>();
             varit.put("blue", Color.blue);
             varit.put("green", Color.green);
             varit.put("yellow", Color.yellow);
             varit.put("purple", Color.magenta.darker());
             varit.put("red", Color.red);
-
+            
         }
-
+        
         @Override
         public void actionPerformed(ActionEvent ae){
             JComboBox box = (JComboBox) ae.getSource();
